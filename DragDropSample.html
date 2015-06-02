@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        #div1 {
+            width: 350px;
+            height: 200px;
+            padding: 10px;
+            border: 1px solid #aaaaaa;
+        }
+        .dragBorder
+        {
+            border: 1px dashed gray; 
+        }
+        .dropBorder
+        {
+            border: 0px; 
+        }
+        .dropBackGround
+        {
+            background-color:lightblue;
+        }
+        .dropNoBackGround
+        {
+            background-color:transparent;
+        }
+    </style>
+    <link href="css/bootstrap.css" rel="stylesheet" />  
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <script>
+        function allowDrop(ev, obj) {
+            ev.preventDefault();
+            obj.className = 'dropBackGround';
+        }
+
+        function drag(ev) {
+            ev.dataTransfer.setData("text", ev.target.id);
+            document.getElementById(ev.target.id).className = 'dragBorder';
+        }
+
+        function drop(ev, obj) {
+            ev.preventDefault();
+            var data = ev.dataTransfer.getData("text");
+            document.getElementById(data).className = 'dropBorder';
+            ev.target.appendChild(document.getElementById(data));
+            obj.className = 'dropNoBackGround';
+        }
+        
+
+    </script>
+</head>
+<body>
+
+    <div id="div1" ondrop="drop(event, this)" ondragover="allowDrop(event, this)"></div>
+    <img id="drag1" src="img/3by4_Curve_Edge.png" draggable="true"
+         ondragstart="drag(event)" >
+    <div style="width:600px">
+        <table id="tblDragBox" class="table table-bordered">
+            <tr>
+                <td ondrop="drop(event, this)" ondragover="allowDrop(event, this)"></td>
+                <td ondrop="drop(event, this)" ondragover="allowDrop(event, this)"></td>
+                <td ondrop="drop(event, this)" ondragover="allowDrop(event, this)"></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+        </table>
+    </div>
+   
+    <script>
+
+        $('#tblDragBox td').each(function () {
+            this.attr("ondrop", "drop(event)");
+            this.attr("ondragover", "allowDrop(event)");
+        });
+
+    </script>
+</body>
+</html>
